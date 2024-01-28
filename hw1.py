@@ -22,9 +22,9 @@ new_Euler = Navigation.RotMat_to_Euler(new_RotMat)*180/math.pi
 # 2
 l_g = np.array([[450,400,50]]).T
 R_C_G = np.array([[0.5363, -0.8440, 0],[0.8440, 0.5363, 0] ,[0, 0 ,1]])
-l_c = R_C_G*l_g
-t_G_C_to_G = np.array([[-451.2459,257.0322,400]])
-T_G_C = robot.calc_T(t = pd.DataFrame(t_G_C_to_G , columns={'x','y','z'} , index=None).iloc[0],R = R_C_G, dim=3)
+t_C_C_to_G = R_C_G@np.array([[-451.2459,257.0322,400]]).T
+l_c = R_C_G@l_g+t_C_C_to_G
+T_G_C = robot.calc_T(t = pd.DataFrame(t_C_C_to_G.T , columns={'x','y','z'} , index=None).iloc[0],R = R_C_G, dim=3)
 
 
 #3

@@ -15,7 +15,14 @@ def Euler_to_RotMat(roll,pitch,yaw):
     return np.dot(np.dot(Rz,Ry),Rx)
 
 def RotMat_to_Euler(R):
-    theta = math.asin(R[2,0])
-    phi = math.acos(R[2,2]/math.cos(theta))
-    psi = math.acos(R[0,0]/math.cos(theta))
+    if R[2,0] == math.pi/2:
+        phi = math.atan2(R[0,1],R[1,1])
+        psi = 0
+    elif R[2,0] == -math.pi/2:
+        -phi = math.atan2(R[0,1],R[1,1])
+        psi = 0
+    else:
+        theta = math.asin(R[2,0])
+        phi = math.atan2(R[2,1]/-math.cos(theta) , R[2,2]/math.cos(theta))
+        psi = math.atan2(R[1,0]/-math.cos(theta) , R[0,0]/math.cos(theta))
     return np.array([phi , theta ,psi]) # roll Pitch yaw
